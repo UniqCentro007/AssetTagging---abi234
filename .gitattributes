@@ -1,5 +1,4 @@
-﻿# Auto normalize text, ignore node_modules and preserve Git behavior for binary content
-* text=auto
+﻿* text=auto
 .gitattributes text eol=lf
 .gitignore text eol=lf
 frontend/node_modules/** -text
