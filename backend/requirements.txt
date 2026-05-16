@@ -1,8 +1,11 @@
 fastapi
-uvicorn
+uvicorn[standard]
 python-multipart
 sqlalchemy
-torch
-transformers
 pillow
 pandas
+torch
+transformers
+langchain-community
+langchain-core
+opencv-python-headless

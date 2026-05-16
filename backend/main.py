@@ -51,12 +51,17 @@ print("Loading Speech-to-Text AI Model (Whisper)... Please wait...")
 speech_recognizer = pipeline("automatic-speech-recognition", model="openai/whisper-tiny")
 
 # --- 3. NEW: Load Llama 3 for RAG Chatbot ---
-print("Loading Llama 3 for RAG (Make sure Ollama is running)...")
-try:
-    llm = ChatOllama(model="llama3") 
-except Exception as e:
-    print("Warning: Could not connect to Ollama. Is it running?", e)
-    llm = None
+ENABLE_RAG = os.getenv("ENABLE_RAG", "false").lower() in ("1", "true", "yes")
+llm = None
+if ENABLE_RAG:
+    print("Loading Llama 3 for RAG (Make sure Ollama is running)...")
+    try:
+        llm = ChatOllama(model="llama3") 
+    except Exception as e:
+        print("Warning: Could not connect to Ollama. Is it running?", e)
+        llm = None
+else:
+    print("RAG chatbot disabled. Set ENABLE_RAG=true to enable Ollama integration.")
 
 
 @app.get("/")

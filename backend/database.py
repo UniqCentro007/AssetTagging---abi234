@@ -2,12 +2,15 @@ from sqlalchemy import create_engine, Column, Integer, String, Float, JSON, Date
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
 import datetime
+import os
 
-# PostgreSQL Connection String
-# 'postgresql://username:password@localhost:5432/database_name'
-SQLALCHEMY_DATABASE_URL = "postgresql://postgres:AbIsh721416%40@localhost:5432/asset_db"
+# Use local SQLite by default for easy distribution and running without a separate DB server.
+DATABASE_URL = os.getenv("DATABASE_URL", "sqlite:///./asset_db.sqlite3")
+connect_args = {}
+if DATABASE_URL.startswith("sqlite"):
+    connect_args = {"check_same_thread": False}
 
-engine = create_engine(SQLALCHEMY_DATABASE_URL)
+engine = create_engine(DATABASE_URL, connect_args=connect_args)
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 
 Base = declarative_base()
